@@ -38,3 +38,10 @@ cd $SPARK_HOME; ./bin/spark-submit   --class com.oreilly.learningsparkexamples.[
 
 
 spark-submit --class com.oreilly.learningsparkexamples.mini.java.BasicMap --master spark://nn1.hadoop.com:7077 /home/hadoop/learning-spark-0.0.2-jar-with-dependencies.jar
+
+
+spark-submit --class com.oreilly.learningsparkexamples.java.LoadHive --master local --executor-memory 1G --total-executor-cores 1  /var/lib/hadoop-hdfs/learning-spark-0.0.2-jar-with-dependencies.jar local tld 1
+--total-executor-cores 400 --driver-memory 256MB
+ --executor-memory 1GB --num-executors 1
+spark-submit --class com.oreilly.learningsparkexamples.java.LoadHive --master spark://172.31.54.156:7077 --executor-memory 5G --total-executor-cores 1 /home/hadoop/learning-spark-0.0.2-jar-with-dependencies.jar spark://172.31.54.156:7077 tld 1
+spark-submit --class org.apache.spark.mllib.rank.SVMRankRunner --master spark://172.31.54.156:7077 --executor-memory 10G --total-executor-cores 6 /home/hadoop/muc/test/spark-rank.jar hdfs://yoho/data/yoho/recom_yohobuy/svm_rank/all_tr.txt 86

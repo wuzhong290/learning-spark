@@ -7,6 +7,8 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.spark.sql.hive.HiveContext;
 import scala.Tuple2;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -35,11 +37,13 @@ public class LoadHive {
 		}
     String master = args[0];
     String tbl = args[1];
-
-		JavaSparkContext sc = new JavaSparkContext(
+    //spark-submit --class com.oreilly.learningsparkexamples.java.LoadHive --master local --executor-memory 1G --total-executor-cores 1  /var/lib/hadoop-hdfs/learning-spark-0.0.2-jar-with-dependencies.jar local tld 1
+      System.out.println(System.getenv("SPARK_HOME"));
+      JavaSparkContext sc = new JavaSparkContext(
       master, "loadhive", System.getenv("SPARK_HOME"), System.getenv("JARS"));
+      HiveContext sqlContext = new HiveContext(sc.sc());
     SQLContext sqlCtx = new SQLContext(sc);
-    DataFrame rdd = sqlCtx.sql("SELECT key, value FROM src");
+    DataFrame rdd = sqlContext.sql("SELECT key, value FROM src");
     JavaRDD<Integer> squaredKeys = rdd.toJavaRDD().map(new SquareKey());
     List<Integer> result = squaredKeys.collect();
     for (Integer elem : result) {
